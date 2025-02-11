@@ -10,8 +10,14 @@ from utils.mc_utils import *
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-GUILD_ID = int(os.getenv("GUILD_ID"))
-GAYMING_ID = int(os.getenv("GAYMING_ID"))
+ENVIRONMENT = os.getenv("ENVIRONMENT")
+
+if ENVIRONMENT == "prod":
+    GUILD_ID = int(os.getenv("ASKOWICZE_GUILD_ID"))
+    GAYMING_ID = int(os.getenv("GAYMING_ID"))
+elif ENVIRONMENT == "test":
+    GUILD_ID = int(os.getenv("TEST_GUILD_ID"))
+    GAYMING_ID = int(os.getenv("TEST_GAYMING_ID"))
 
 bot = commands.Bot(intents=discord.Intents.default(), command_prefix="!")
 
