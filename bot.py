@@ -15,7 +15,7 @@ bot = commands.Bot(intents=discord.Intents.default(), command_prefix="!")
 @bot.event
 async def on_ready():
     logger.debug(f"{bot.user} has connected to Discord")
-    # set_current_mc_players_channels.start()
+    set_current_mc_players_channels.start()
     send_birthday_message.start()
 
 
