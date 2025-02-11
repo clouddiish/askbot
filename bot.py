@@ -9,7 +9,9 @@ from utils.dc_utils import *
 from utils.mc_utils import *
 from data.birthdays import birthdays
 
-bot = commands.Bot(intents=discord.Intents.default(), command_prefix="!")
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(intents=intents, command_prefix="!")
 
 
 @bot.event
@@ -58,6 +60,16 @@ async def send_birthday_message():
         if birthday.month == current_date.month and birthday.day == current_date.day:
             logger.debug(f"User {user.display_name} birthday is the same as current date")
             await gayneral_channel.send(f"Today's {user.display_name} birthday!")
+
+
+@bot.command(name="birthdays")
+async def send_all_birthdays(ctx):
+    message = "Birthdays: \n"
+    for user_id, birthday in birthdays.items():
+        user = await bot.fetch_user(user_id)
+        message += f"{user.display_name}: {birthday} \n"
+
+    await ctx.send(message)
 
 
 bot.run(TOKEN)
