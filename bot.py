@@ -89,9 +89,14 @@ async def send_hangout_poll():
     logger.debug("Send hangout poll start")
     current_date = date.today()
     logger.debug(f"Current day gotten: {current_date}")
+
+    if current_date.day != HANGOUT_POLL_DAY:
+        logger.debug("Today is not the hangout poll day")
+        return
+
     events_channel = bot.get_channel(EVENTS_ID)
     poll = discord.Poll(
-        question="What do you choose?",
+        question="When should the next hangout be?",
         duration=timedelta(days=7),
         multiple=True,
     )

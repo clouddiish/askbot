@@ -1,6 +1,7 @@
 import logging
+import discord
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("discord")
 logger.setLevel("DEBUG")
 
 console_handler = logging.StreamHandler()
