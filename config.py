@@ -23,7 +23,7 @@ elif ENVIRONMENT == "test":
     GAYMING_ID = int(os.getenv("TEST_GAYMING_ID"))
 
 HANGOUT_POLL_DAY = 1
-HANGOUT_POLL_TIME = time(hour=21, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
+HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
 BIRTHDAY_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
