@@ -2,9 +2,13 @@ import discord
 from discord.ext import commands, tasks
 
 from config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, MC_CHANNEL_ID
-from utils.dc import *
+from utils.dc import (
+    get_mc_category_channels_set,
+    clear_mc_category_channels,
+    update_mc_category_channels,
+)
 from utils.logger import logger
-from utils.mc import *
+from utils.mc import get_mcserver_players_set
 
 
 class Minecraft(commands.Cog):
@@ -38,7 +42,7 @@ class Minecraft(commands.Cog):
 
         logger.info("comparing mcserver channels set with mcserver players set")
         if mc_category_channels_set != mcserver_players_set:
-            logger.info("updating mcserver channels")
+            logger.logger.info("updating mcserver channels")
             if len(mc_category_channels_set) < len(mcserver_players_set):
                 await gayming_channel.send("somebody joined the minecraft server!")
 

@@ -1,5 +1,5 @@
 from utils.logger import logger
-from utils.mc import *
+from utils.mc import get_mcserver_players_set
 
 
 def get_mcserver_category(guild):

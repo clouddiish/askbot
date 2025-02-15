@@ -7,7 +7,6 @@ from discord.ext import commands
 from config import TOKEN
 from utils.logger import logger
 
-
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(intents=intents, command_prefix="!")
