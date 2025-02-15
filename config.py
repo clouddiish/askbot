@@ -24,9 +24,9 @@ elif ENVIRONMENT == "test":
     MC_CHANNEL_ID = int(os.getenv("TEST_MC_CHANNEL_ID"))
     MC_CATEGORY_ID = int(os.getenv("TEST_MC_CATEGORY_ID"))
 
-HANGOUT_POLL_DAY = 15
-HANGOUT_POLL_TIME = time(hour=20, minute=17, tzinfo=ZoneInfo("Europe/Warsaw"))
+HANGOUT_POLL_DAY = 1
+HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
-BIRTHDAY_TIME = time(hour=20, minute=17, tzinfo=ZoneInfo("Europe/Warsaw"))
+BIRTHDAY_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
 MCSERVER_IP = os.getenv("MCSERVER_IP")

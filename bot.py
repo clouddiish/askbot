@@ -20,7 +20,7 @@ async def on_ready():
 
 async def load_cogs():
     """Loads all cogs"""
-    cogs = ["cogs.minecraft", "cogs.birthdays", "cogs.events", "cogs.general"]
+    cogs = ["cogs.minecraft", "cogs.birthday", "cogs.hangout", "cogs.general"]
     for cog in cogs:
         try:
             logger.debug(f"loading cog {cog}")

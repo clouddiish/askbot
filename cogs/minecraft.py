@@ -7,7 +7,7 @@ from utils.logger import logger
 from utils.mc import *
 
 
-class MinecraftCog(commands.Cog):
+class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.guild_id = GUILD_ID
@@ -36,7 +36,7 @@ class MinecraftCog(commands.Cog):
         mcserver_players_set = get_mcserver_players_set()
         gayming_channel = self.bot.get_channel(self.gayming_id)
 
-        logger.debug("comparing mcserver channels set with mcserver players set")
+        logger.info("comparing mcserver channels set with mcserver players set")
         if mc_category_channels_set != mcserver_players_set:
             logger.info("updating mcserver channels")
             if len(mc_category_channels_set) < len(mcserver_players_set):
@@ -49,4 +49,4 @@ class MinecraftCog(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(MinecraftCog(bot))
+    await bot.add_cog(Minecraft(bot))

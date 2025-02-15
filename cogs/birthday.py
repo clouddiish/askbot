@@ -2,12 +2,12 @@ from datetime import datetime, date, timedelta
 
 from discord.ext import commands, tasks
 
-from data.birthdays import birthdays
+from data.birthday_data import birthdays
 from config import BIRTHDAY_TIME, BIRTHDAY_CHANNEL_ID
 from utils.logger import logger
 
 
-class BirthdayCog(commands.Cog):
+class Birthday(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.birthday_channel_id = BIRTHDAY_CHANNEL_ID
@@ -57,4 +57,4 @@ class BirthdayCog(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(BirthdayCog(bot))
+    await bot.add_cog(Birthday(bot))

@@ -4,7 +4,7 @@ from discord.ext import commands
 from utils.logger import logger
 
 
-class GeneralCog(commands.Cog):
+class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -16,4 +16,4 @@ class GeneralCog(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(GeneralCog(bot))
+    await bot.add_cog(General(bot))

@@ -8,7 +8,7 @@ from utils.general import get_sundays_of_month
 from utils.logger import logger
 
 
-class EventsCog(commands.Cog):
+class Hangout(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.hangout_poll_channel_id = HANGOUT_POLL_CHANNEL_ID
@@ -24,7 +24,7 @@ class EventsCog(commands.Cog):
         logger.debug(f"current day gotten: {current_date}")
 
         if current_date.day != self.hangout_poll_day:
-            logger.debug("today is not the hangout poll day")
+            logger.info("today is not the hangout poll day")
             return
 
         events_channel = self.bot.get_channel(self.hangout_poll_channel_id)
@@ -45,4 +45,4 @@ class EventsCog(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(EventsCog(bot))
+    await bot.add_cog(Hangout(bot))
