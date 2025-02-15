@@ -14,6 +14,12 @@ class General(commands.Cog):
         logger.info(f"whoareyou command called by user {ctx.author}")
         await ctx.send("im szłotych!")
 
+    @commands.command()
+    async def doyouloveus(self, ctx):
+        """tells us it loves us"""
+        logger.info(f"doyouloveus command called by user {ctx.author}")
+        await ctx.send("I LOVE YOU ALL!!!")
+
 
 async def setup(bot):
     await bot.add_cog(General(bot))
