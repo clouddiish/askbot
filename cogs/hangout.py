@@ -18,7 +18,7 @@ class Hangout(commands.Cog):
 
     @tasks.loop(time=HANGOUT_POLL_TIME)
     async def send_hangout_poll(self):
-        """Sends hangout poll at the specified day"""
+        """sends hangout poll at the specified day"""
         logger.debug("send hangout poll start")
         current_date = date.today()
         logger.debug(f"current day gotten: {current_date}")

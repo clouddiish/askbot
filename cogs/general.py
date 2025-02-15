@@ -10,7 +10,7 @@ class General(commands.Cog):
 
     @commands.command()
     async def whoareyou(self, ctx):
-        """Responds with im szłotych"""
+        """responds with im szłotych"""
         logger.info(f"whoareyou command called by user {ctx.author}")
         await ctx.send("im szłotych!")
 

@@ -18,7 +18,7 @@ async def on_ready():
 
 
 async def load_cogs():
-    """Loads all cogs"""
+    """loads all cogs"""
     cogs = ["cogs.minecraft", "cogs.birthday", "cogs.hangout", "cogs.general"]
     for cog in cogs:
         try:
@@ -30,10 +30,10 @@ async def load_cogs():
 
 
 async def main():
-    """Main async function to start the bot"""
+    """main async function to start the bot"""
     async with bot:
         await load_cogs()
-        logger.info("All cogs loaded. Starting the bot...")
+        logger.info("all cogs loaded, starting the bot")
         await bot.start(TOKEN)
 
 

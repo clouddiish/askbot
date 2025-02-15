@@ -14,7 +14,7 @@ class Birthday(commands.Cog):
         self.check_birthdays.start()
 
     # @commands.command()
-    # async def set_birthday(self, ctx, date: str):
+    # async def setbirthday(self, ctx, date: str):
     #     """Set your birthday using DD-MM format"""
     #     logger.info(f"set_birthday command called by user {ctx.author}")
     #     try:
@@ -28,7 +28,7 @@ class Birthday(commands.Cog):
 
     @commands.command()
     async def birthdays(self, ctx):
-        """Sends all birthdays"""
+        """sends all birthdays"""
         logger.info(f"birthdays command called by user {ctx.author}")
         message = "__BIRTHDAYS:__ \n"
         for user_id, birthday in birthdays.items():
@@ -39,7 +39,7 @@ class Birthday(commands.Cog):
 
     @tasks.loop(time=BIRTHDAY_TIME)
     async def check_birthdays(self):
-        """Checks if it's someone's birthday and sends a message."""
+        """checks if it's someone's birthday and sends a message."""
         current_date = date.today()
         birthday_channel = self.bot.get_channel(self.birthday_channel_id)
 

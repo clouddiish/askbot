@@ -21,12 +21,13 @@ class Minecraft(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        """Ensures the task starts only when the bot is fully ready."""
+        """ensures the task starts only when the bot is fully ready."""
         if not self.update_mc_players_channels.is_running():
             self.update_mc_players_channels.start()
 
     @tasks.loop(seconds=30)
     async def update_mc_players_channels(self):
+        """updates the mc players channels to reflect actual current players in mcserver"""
         logger.debug("getting guild")
         guild = self.bot.get_guild(self.guild_id)
         logger.debug(f"guild gotten: {guild}")
