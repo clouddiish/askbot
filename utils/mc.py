@@ -1,7 +1,7 @@
 from mcstatus import JavaServer
 
-from config import MCSERVER_IP
-from utils.logger import logger
+from ..config import MCSERVER_IP
+from .logger import logger
 
 
 logger.debug("getting mcserver")

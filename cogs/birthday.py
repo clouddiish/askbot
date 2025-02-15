@@ -2,9 +2,9 @@ from datetime import datetime, date, timedelta
 
 from discord.ext import commands, tasks
 
-from data.birthday_data import birthdays
-from config import BIRTHDAY_TIME, BIRTHDAY_CHANNEL_ID
-from utils.logger import logger
+from ..data.birthday_data import birthdays
+from ..config import BIRTHDAY_TIME, BIRTHDAY_CHANNEL_ID
+from ..utils.logger import logger
 
 
 class Birthday(commands.Cog):
