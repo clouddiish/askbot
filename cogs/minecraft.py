@@ -1,10 +1,10 @@
 import discord
 from discord.ext import commands, tasks
 
-from ..config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, MC_CHANNEL_ID
-from ..utils.dc import *
-from ..utils.logger import logger
-from ..utils.mc import *
+from config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, MC_CHANNEL_ID
+from utils.dc import *
+from utils.logger import logger
+from utils.mc import *
 
 
 class Minecraft(commands.Cog):

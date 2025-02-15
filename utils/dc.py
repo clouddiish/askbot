@@ -1,5 +1,5 @@
-from .logger import logger
-from .mc import *
+from utils.logger import logger
+from utils.mc import *
 
 
 def get_mcserver_category(guild):
