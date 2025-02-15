@@ -33,7 +33,7 @@ class Birthday(commands.Cog):
         message = "__BIRTHDAYS:__ \n"
         for user_id, birthday in birthdays.items():
             user = await self.bot.fetch_user(user_id)
-            message += f"**{user.display_name}**: {birthday.strftime("%d %B")} \n"
+            message += f"**{user.display_name}**: {birthday.strftime('%d %B')} \n"
 
         await ctx.send(message)
 
