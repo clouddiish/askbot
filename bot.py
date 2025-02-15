@@ -4,8 +4,8 @@ import logging
 import discord
 from discord.ext import commands
 
-from .config import TOKEN
-from .utils.logger import logger
+from config import TOKEN
+from utils.logger import logger
 
 
 intents = discord.Intents.default()
