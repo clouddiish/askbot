@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 
-from config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, GAYMING_ID
+from config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, MC_CHANNEL_ID
 from utils.dc import *
 from utils.logger import logger
 from utils.mc import *
@@ -12,7 +12,7 @@ class MinecraftCog(commands.Cog):
         self.bot = bot
         self.guild_id = GUILD_ID
         self.mc_category_id = MC_CATEGORY_ID
-        self.gayming_id = GAYMING_ID
+        self.gayming_id = MC_CHANNEL_ID
         self.mcserver_ip = MCSERVER_IP
 
     @commands.Cog.listener()

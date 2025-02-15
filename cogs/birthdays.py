@@ -3,14 +3,14 @@ from datetime import datetime, date, timedelta
 from discord.ext import commands, tasks
 
 from data.birthdays import birthdays
-from config import BIRTHDAY_TIME, GAYNERAL_ID
+from config import BIRTHDAY_TIME, BIRTHDAY_CHANNEL_ID
 from utils.logger import logger
 
 
 class BirthdayCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.birthday_channel_id = GAYNERAL_ID
+        self.birthday_channel_id = BIRTHDAY_CHANNEL_ID
         self.check_birthdays.start()
 
     # @commands.command()

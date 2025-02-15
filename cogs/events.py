@@ -3,7 +3,7 @@ from datetime import date, timedelta
 import discord
 from discord.ext import commands, tasks
 
-from config import HANGOUT_POLL_DAY, HANGOUT_POLL_TIME, EVENTS_ID
+from config import HANGOUT_POLL_DAY, HANGOUT_POLL_TIME, HANGOUT_POLL_CHANNEL_ID
 from utils.general import get_sundays_of_month
 from utils.logger import logger
 
@@ -11,7 +11,7 @@ from utils.logger import logger
 class EventsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.events_channel_id = EVENTS_ID
+        self.hangout_poll_channel_id = HANGOUT_POLL_CHANNEL_ID
         self.hangout_poll_time = HANGOUT_POLL_TIME
         self.hangout_poll_day = HANGOUT_POLL_DAY
         self.send_hangout_poll.start()
@@ -27,9 +27,9 @@ class EventsCog(commands.Cog):
             logger.debug("today is not the hangout poll day")
             return
 
-        events_channel = self.bot.get_channel(self.events_channel_id)
+        events_channel = self.bot.get_channel(self.hangout_poll_channel_id)
         if not events_channel:
-            logger.error(f"channel with id {self.events_channel_id} not found")
+            logger.error(f"channel with id {self.hangout_poll_channel_id} not found")
             return
 
         poll = discord.Poll(
