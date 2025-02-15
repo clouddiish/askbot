@@ -107,4 +107,9 @@ async def send_hangout_poll():
     await events_channel.send(poll=poll)
 
 
+@bot.command(name="whoareyou")
+async def send_all_birthdays(ctx):
+    await ctx.send("im szłotych!")
+
+
 bot.run(TOKEN)
