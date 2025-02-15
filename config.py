@@ -6,21 +6,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TOKEN = os.getenv("DISCORD_TOKEN")
+TOKEN = os.getenv("TOKEN")
 
 ENVIRONMENT = os.getenv("ENVIRONMENT")
 
 if ENVIRONMENT == "prod":
-    GUILD_ID = int(os.getenv("ASKOWICZE_GUILD_ID"))
-    EVENTS_ID = int(os.getenv("EVENTS_ID"))
-    GAYNERAL_ID = int(os.getenv("GAYNERAL_ID"))
-    GAYMING_ID = int(os.getenv("GAYMING_ID"))
+    GUILD_ID = int(os.getenv("GUILD_ID"))
+    HANGOUT_POLL_CHANNEL_ID = int(os.getenv("HANGOUT_POLL_CHANNEL_ID"))
+    BIRTHDAY_CHANNEL_ID = int(os.getenv("BIRTHDAY_CHANNEL_ID"))
+    MC_CHANNEL_ID = int(os.getenv("MC_CHANNEL_ID"))
+    MC_CATEGORY_ID = int(os.getenv("MC_CATEGORY_ID"))
 
 elif ENVIRONMENT == "test":
     GUILD_ID = int(os.getenv("TEST_GUILD_ID"))
-    EVENTS_ID = int(os.getenv("TEST_EVENTS_ID"))
-    GAYNERAL_ID = int(os.getenv("TEST_GAYNERAL_ID"))
-    GAYMING_ID = int(os.getenv("TEST_GAYMING_ID"))
+    HANGOUT_POLL_CHANNEL_ID = int(os.getenv("TEST_HANGOUT_POLL_CHANNEL_ID"))
+    BIRTHDAY_CHANNEL_ID = int(os.getenv("TEST_BIRTHDAY_CHANNEL_ID"))
+    MC_CHANNEL_ID = int(os.getenv("TEST_MC_CHANNEL_ID"))
+    MC_CATEGORY_ID = int(os.getenv("TEST_MC_CATEGORY_ID"))
 
 HANGOUT_POLL_DAY = 1
 HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
