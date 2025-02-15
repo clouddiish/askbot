@@ -15,12 +15,14 @@ if ENVIRONMENT == "prod":
     EVENTS_ID = int(os.getenv("EVENTS_ID"))
     GAYNERAL_ID = int(os.getenv("GAYNERAL_ID"))
     GAYMING_ID = int(os.getenv("GAYMING_ID"))
+    MC_CATEGORY_ID = int(os.getenv("MC_CATEGORY_ID"))
 
 elif ENVIRONMENT == "test":
     GUILD_ID = int(os.getenv("TEST_GUILD_ID"))
     EVENTS_ID = int(os.getenv("TEST_EVENTS_ID"))
     GAYNERAL_ID = int(os.getenv("TEST_GAYNERAL_ID"))
     GAYMING_ID = int(os.getenv("TEST_GAYMING_ID"))
+    MC_CATEGORY_ID = int(os.getenv("TEST_MC_CATEGORY_ID"))
 
 HANGOUT_POLL_DAY = 1
 HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
