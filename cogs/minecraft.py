@@ -43,7 +43,7 @@ class Minecraft(commands.Cog):
 
         logger.info("comparing mcserver channels set with mcserver players set")
         if mc_category_channels_set != mcserver_players_set:
-            logger.logger.info("updating mcserver channels")
+            logger.info("updating mcserver channels")
             if len(mc_category_channels_set) < len(mcserver_players_set):
                 await gayming_channel.send("somebody joined the minecraft server!")
 
