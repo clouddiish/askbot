@@ -2,13 +2,13 @@ import discord
 from discord.ext import commands, tasks
 
 from config import GUILD_ID, MC_CATEGORY_ID, MCSERVER_IP, MC_CHANNEL_ID
-from utils.dc import (
+from utils.dc_utils import (
     get_mc_category_channels_set,
     clear_mc_category_channels,
     update_mc_category_channels,
 )
 from utils.logger import logger
-from utils.mc import get_mcserver_players_set
+from utils.mc_utils import get_mcserver_players_set
 
 
 class Minecraft(commands.Cog):
