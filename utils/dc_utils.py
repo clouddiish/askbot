@@ -1,5 +1,5 @@
 from utils.logger import logger
-from utils.mc import get_mcserver_players_set
+from utils.mc_utils import get_mcserver_players_set
 
 
 def get_mcserver_category(guild):
@@ -24,7 +24,6 @@ async def clear_mc_category_channels(category):
 
 
 async def update_mc_category_channels(category):
-
     for player in get_mcserver_players_set():
         logger.debug(f"creating channel {str(player)}")
 

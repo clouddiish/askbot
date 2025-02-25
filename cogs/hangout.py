@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands, tasks
 
 from config import HANGOUT_POLL_DAY, HANGOUT_POLL_TIME, HANGOUT_POLL_CHANNEL_ID
-from utils.general import get_sundays_of_month
+from utils.general_utils import get_sundays_of_month
 from utils.logger import logger
 
 
