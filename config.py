@@ -27,7 +27,7 @@ elif ENVIRONMENT == "test":
 HANGOUT_POLL_DAY = 1
 HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
-BIRTHDAY_TIME = time(hour=20, minute=46, tzinfo=ZoneInfo("Europe/Warsaw"))
+BIRTHDAY_TIME = time(hour=8, minute=40, tzinfo=ZoneInfo("Europe/Warsaw"))
 BIRTHDAY_FILE = "data/birthday_data.json"
 
 MCSERVER_IP = os.getenv("MCSERVER_IP")

@@ -39,4 +39,4 @@ async def main():
 
 if __name__ == "__main__":
     discord.utils.setup_logging(level=logging.INFO)
-    asyncio.run(main())  # Properly runs the async function
+    asyncio.run(main())
