@@ -9,14 +9,14 @@ MC_SERVER = JavaServer.lookup(MCSERVER_IP)
 logger.debug(f"mcserver gotten: {MC_SERVER}")
 
 
-def get_mcserver_players_counter():
+def get_mcserver_players_counter() -> int:
     status = MC_SERVER.status()
     counter = status.players.online
     logger.debug(f"current player counter: {counter}")
     return counter
 
 
-def get_mcserver_players_set():
+def get_mcserver_players_set() -> set[str]:
     logger.debug("getting mcserver players set")
     players_set = set()
     query = MC_SERVER.query()

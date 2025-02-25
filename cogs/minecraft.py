@@ -12,7 +12,7 @@ from utils.mc_utils import get_mcserver_players_set
 
 
 class Minecraft(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.guild_id = GUILD_ID
         self.mc_category_id = MC_CATEGORY_ID
@@ -21,12 +21,12 @@ class Minecraft(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        """ensures the task starts only when the bot is fully ready."""
+        """ensures the task starts only when the bot is fully ready"""
         if not self.update_mc_players_channels.is_running():
             self.update_mc_players_channels.start()
 
     @tasks.loop(seconds=30)
-    async def update_mc_players_channels(self):
+    async def update_mc_players_channels(self) -> None:
         """updates the mc players channels to reflect actual current players in mcserver"""
         logger.debug("getting guild")
         guild = self.bot.get_guild(self.guild_id)
@@ -53,5 +53,5 @@ class Minecraft(commands.Cog):
             await update_mc_category_channels(mc_category)
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Minecraft(bot))

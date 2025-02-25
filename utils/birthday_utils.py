@@ -3,7 +3,7 @@ import json
 from utils.logger import logger
 
 
-def get_all_birthdays(file_path):
+def get_all_birthdays(file_path: str) -> dict[int:str]:
     logger.debug("getting all birthdays")
     with open(file_path, "r") as file:
         birthdays = json.load(file)
@@ -12,7 +12,7 @@ def get_all_birthdays(file_path):
     return birthdays
 
 
-def get_birthday_by_user_id(file_path, user_id):
+def get_birthday_by_user_id(file_path: str, user_id: int) -> str:
     logger.debug(f"getting birthday of user with id {user_id}")
     birthdays = get_all_birthdays(file_path)
     if user_id in birthdays.keys():
@@ -21,7 +21,7 @@ def get_birthday_by_user_id(file_path, user_id):
         return "no birthday for this user"
 
 
-def set_birthday_for_user_id(file_path, user_id, birthday):
+def set_birthday_for_user_id(file_path: str, user_id: int, birthday: str) -> None:
     logger.debug(f"setting birthday of user with id {user_id} to {birthday}")
     birthdays = get_all_birthdays(file_path)
     birthdays.update({user_id: birthday})

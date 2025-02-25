@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 
-def get_sundays_of_month(year, month):
+def get_sundays_of_month(year: int, month: int) -> list[date]:
     # Get the first day of the month
     first_day = date(year, month, 1)
 

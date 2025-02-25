@@ -9,7 +9,7 @@ from utils.logger import logger
 
 
 class Hangout(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.hangout_poll_channel_id = HANGOUT_POLL_CHANNEL_ID
         self.hangout_poll_time = HANGOUT_POLL_TIME
@@ -17,7 +17,7 @@ class Hangout(commands.Cog):
         self.send_hangout_poll.start()
 
     @tasks.loop(time=HANGOUT_POLL_TIME)
-    async def send_hangout_poll(self):
+    async def send_hangout_poll(self) -> None:
         """sends hangout poll at the specified day"""
         logger.debug("send hangout poll start")
         current_date = date.today()
@@ -44,5 +44,5 @@ class Hangout(commands.Cog):
         await events_channel.send(poll=poll)
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Hangout(bot))

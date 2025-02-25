@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 
 from discord.ext import commands, tasks
 
@@ -8,13 +8,13 @@ from utils.logger import logger
 
 
 class Birthday(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.birthday_channel_id = BIRTHDAY_CHANNEL_ID
         self.check_birthdays.start()
 
     @commands.command()
-    async def setbirthday(self, ctx, date: str):
+    async def setbirthday(self, ctx: commands.Context, date: str) -> None:
         """set your birthday using DD-MM format"""
         logger.info(f"setbirthday command called by user {ctx.author}")
         try:
@@ -27,14 +27,14 @@ class Birthday(commands.Cog):
             await ctx.send("invalid format, please use DD-MM")
 
     @commands.command()
-    async def mybirthday(self, ctx):
+    async def mybirthday(self, ctx: commands.Context) -> None:
         """check your birthday"""
         logger.info(f"mybirthday command called by user {ctx.author}")
         bday = get_birthday_by_user_id(BIRTHDAY_FILE, ctx.author.id)
         await ctx.send(f"your birthday currently is set to: {bday}")
 
     @commands.command()
-    async def birthdays(self, ctx):
+    async def birthdays(self, ctx: commands.Context) -> None:
         """sends all birthdays"""
         logger.info(f"birthdays command called by user {ctx.author}")
         message = "__BIRTHDAYS:__ \n"
@@ -50,7 +50,7 @@ class Birthday(commands.Cog):
         await ctx.send(message)
 
     @tasks.loop(time=BIRTHDAY_TIME)
-    async def check_birthdays(self):
+    async def check_birthdays(self) -> None:
         """checks if it's someone's birthday and sends a message."""
         current_date = date.today()
         birthday_channel = self.bot.get_channel(self.birthday_channel_id)
@@ -75,5 +75,5 @@ class Birthday(commands.Cog):
                 )
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Birthday(bot))
