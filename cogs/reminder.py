@@ -80,7 +80,7 @@ class Reminder(commands.Cog):
         """deletes a reminder by given id"""
         logger.info(f"delreminder command called by user {ctx.author}")
         try:
-            index, target_reminder = get_reminder_and_index_by_id(REMINDER_FILE, reminder_id)
+            index, target_reminder = get_reminder_and_index_by_id(REMINDER_FILE, int(reminder_id))
             if target_reminder["to_remind"] not in ["everyone", ctx.author.id]:
                 await ctx.send(f"you can only delete your reminders or reminders to everyone")
                 return
