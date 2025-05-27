@@ -3,7 +3,7 @@ import json
 from utils.logger import logger
 
 
-def get_all_birthdays(file_path: str) -> dict[int:str]:
+def get_all_birthdays(file_path: str) -> dict[int, str]:
     logger.debug("getting all birthdays")
     with open(file_path, "r") as file:
         birthdays = json.load(file)
