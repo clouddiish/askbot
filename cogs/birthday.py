@@ -56,7 +56,7 @@ class Birthday(commands.Cog):
         birthday_channel = self.bot.get_channel(self.birthday_channel_id)
 
         if not birthday_channel:
-            logger.error(f"channel with id {self.birthday_channel_id} not found")
+            logger.error(f"birthday channel with id {self.birthday_channel_id} not found")
 
         for user_id, birthday in get_all_birthdays(BIRTHDAY_FILE).items():
             try:
