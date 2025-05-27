@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "text": "this is a test reminder",
+    "remind_at": "2025-06-01T12:00:00",
+    "to_remind": "everyone"
+  },
+  {
+    "id": 2,
+    "text": "new test reminder",
+    "remind_at": "2025-05-31T07:38:00",
+    "to_remind": 250367705079742464
+  }
+]
