@@ -30,7 +30,7 @@ class Reminder(commands.Cog):
             to_remind = "everyone" if everyone.lower() == "yes" else ctx.author.id
             create_reminder(REMINDER_FILE, text, remind_at_dt, to_remind)
             await ctx.send(
-                f"you asked to remind **{"everyone" if everyone.lower() == "yes" else ctx.author.name}** at **{remind_at}** with the text: **{text}**"
+                f'you asked to remind **{"everyone" if everyone.lower() == "yes" else ctx.author.name}** at **{remind_at}** with the text: **{text}**'
             )
         except ValueError:
             logger.error(f"invalid remind_at string {remind_at} sent by user {ctx.author}")
@@ -51,7 +51,7 @@ class Reminder(commands.Cog):
                     to_remind_readable = user.display_name
                 else:
                     to_remind_readable = reminder["to_remind"]
-                message += f"- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n"
+                message += f'- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n'
             await ctx.send(message)
         except Exception as e:
             logger.error(f"unexpected error: {e}")
@@ -69,7 +69,7 @@ class Reminder(commands.Cog):
                     to_remind_readable = user.display_name
                 else:
                     to_remind_readable = reminder["to_remind"]
-                message += f"- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n"
+                message += f'- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n'
             await ctx.send(message)
         except Exception as e:
             logger.error(f"unexpected error: {e}")
@@ -108,11 +108,11 @@ class Reminder(commands.Cog):
             remind_at_dt = datetime.strptime(reminder["remind_at"], "%Y-%m-%dT%H:%M:%S")
             if current_dt == remind_at_dt:
                 if reminder["to_remind"] == "everyone":
-                    await reminder_channel.send(f"reminder to @everyone: **{reminder["text"]}**")
+                    await reminder_channel.send(f'reminder to @everyone: **{reminder["text"]}**')
                     delete_reminder_by_id(REMINDER_FILE, int(reminder["id"]))
                 else:
                     user = await self.bot.fetch_user(reminder["to_remind"])
-                    await reminder_channel.send(f"reminder to {user.mention}: **{reminder["text"]}**")
+                    await reminder_channel.send(f'reminder to {user.mention}: **{reminder["text"]}**')
                     delete_reminder_by_id(REMINDER_FILE, int(reminder["id"]))
 
 
