@@ -37,6 +37,6 @@ class TestBirthdayService:
         assert len(new_birthdays) == 2
 
     def test_set_birthday_for_user_id_invalid_date(self, prepopulated_birthday_file: str) -> None:
-        with pytest.raises(ValueError) as err:
+        with pytest.raises(ValueError):
             bday_service = BirthdayService(birthday_filepath=prepopulated_birthday_file)
             bday_service.set_birthday_for_user_id(123, "abcd")
