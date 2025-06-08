@@ -61,7 +61,7 @@ class Minecraft(commands.Cog):
                     category=self.mc_category, to_create=mcserver_players_set
                 )
         except Exception as e:
-            logger.error(f"unexpected error in send_hangout_poll(): {e}")
+            logger.error(f"unexpected error in update_mc_players_channels(): {e}")
             await self.mc_channel.send("ow something went wrong :-(")
 
 
