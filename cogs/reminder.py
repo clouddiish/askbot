@@ -3,21 +3,26 @@ from datetime import datetime
 from discord.ext import commands, tasks
 
 from config import REMINDER_CHANNEL_ID, REMINDER_FILE
-from utils.reminder_utils import (
-    get_all_reminders,
-    get_reminders_by_user_id,
-    create_reminder,
-    delete_reminder_by_id,
-    get_reminder_and_index_by_id,
-)
+from services import ReminderService
 from utils.logger import logger
 
 
 class Reminder(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.reminder_channel_id = REMINDER_CHANNEL_ID
-        self.check_reminders.start()
+        self.reminder_service = ReminderService(reminder_filepath=REMINDER_FILE)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """ensures the task starts only when the bot is fully ready"""
+        logger.debug("getting reminder channel")
+        self.reminder_channel = self.bot.get_channel(REMINDER_CHANNEL_ID)
+        if not self.reminder_channel:
+            logger.error(f"reminder channel with id {REMINDER_CHANNEL_ID} not found")
+        logger.debug(f"reminder channel gotten: {self.reminder_channel}")
+
+        if not self.check_reminders.is_running():
+            self.check_reminders.start()
 
     @commands.command()
     async def setreminder(self, ctx: commands.Context, remind_at: str, everyone: str, *, text: str) -> None:
@@ -28,7 +33,7 @@ class Reminder(commands.Cog):
         try:
             remind_at_dt = datetime.strptime(remind_at, "%Y-%m-%dT%H:%M")
             to_remind = "everyone" if everyone.lower() == "yes" else ctx.author.id
-            create_reminder(REMINDER_FILE, text, remind_at_dt, to_remind)
+            self.reminder_service.create_reminder(text=text, remind_at=remind_at_dt, to_remind=to_remind)
             await ctx.send(
                 f'you asked to remind **{"everyone" if everyone.lower() == "yes" else ctx.author.name}** at **{remind_at}** with the text: **{text}**'
             )
@@ -39,19 +44,25 @@ class Reminder(commands.Cog):
             logger.error(f"unexpected error: {e}")
             await ctx.send("ow something went wrong :-( please try again!")
 
+    async def _get_readable_reminders(self, reminders: list[dict[str, str | int]]) -> str:
+        readable_reminders = ""
+        for reminder in reminders:
+            if reminder["to_remind"] != "everyone":
+                user = await self.bot.fetch_user(reminder["to_remind"])
+                to_remind_readable = user.display_name
+            else:
+                to_remind_readable = reminder["to_remind"]
+            readable_reminders += f'- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n'
+        return readable_reminders
+
     @commands.command()
     async def allreminders(self, ctx: commands.Context) -> None:
         """displays all reminders"""
         logger.info(f"allreminders command called by user {ctx.author}")
         try:
             message = "__ALL REMINDERS:__ \n"
-            for reminder in get_all_reminders(REMINDER_FILE):
-                if reminder["to_remind"] != "everyone":
-                    user = await self.bot.fetch_user(reminder["to_remind"])
-                    to_remind_readable = user.display_name
-                else:
-                    to_remind_readable = reminder["to_remind"]
-                message += f'- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n'
+            readable_reminders = await self._get_readable_reminders(self.reminder_service.get_all_reminders())
+            message += readable_reminders
             await ctx.send(message)
         except Exception as e:
             logger.error(f"unexpected error: {e}")
@@ -63,13 +74,10 @@ class Reminder(commands.Cog):
         logger.info(f"myreminders command called by user {ctx.author}")
         try:
             message = "__YOUR REMINDERS:__ \n"
-            for reminder in get_reminders_by_user_id(REMINDER_FILE, ctx.author.id):
-                if reminder["to_remind"] != "everyone":
-                    user = await self.bot.fetch_user(reminder["to_remind"])
-                    to_remind_readable = user.display_name
-                else:
-                    to_remind_readable = reminder["to_remind"]
-                message += f'- {reminder["id"]}: **{reminder["text"]}**, remind at: **{reminder["remind_at"]}** to **{to_remind_readable}** \n'
+            readable_reminders = await self._get_readable_reminders(
+                self.reminder_service.get_reminders_by_user_id(ctx.author.id)
+            )
+            message += readable_reminders
             await ctx.send(message)
         except Exception as e:
             logger.error(f"unexpected error: {e}")
@@ -80,11 +88,11 @@ class Reminder(commands.Cog):
         """deletes a reminder by given id"""
         logger.info(f"delreminder command called by user {ctx.author}")
         try:
-            index, target_reminder = get_reminder_and_index_by_id(REMINDER_FILE, int(reminder_id))
+            target_reminder = self.reminder_service.get_reminder_and_index_by_id(int(reminder_id))[1]
             if target_reminder["to_remind"] not in ["everyone", ctx.author.id]:
                 await ctx.send(f"you can only delete your reminders or reminders to everyone")
                 return
-            delete_reminder_by_id(REMINDER_FILE, int(reminder_id))
+            self.reminder_service.delete_reminder_by_id(int(reminder_id))
             await ctx.send(f"deleted reminder with id {reminder_id}")
         except ValueError:
             logger.error(f"wrong id provided for reminder: {reminder_id}")
@@ -98,22 +106,19 @@ class Reminder(commands.Cog):
 
     @tasks.loop(seconds=30)
     async def check_reminders(self) -> None:
-        logger.info("checking for reminders")
+        logger.debug("checking for reminders")
         current_dt = datetime.now().replace(second=0, microsecond=0)
-        reminder_channel = self.bot.get_channel(self.reminder_channel_id)
-        if not reminder_channel:
-            logger.error(f"reminder channel with id {self.reminder_channel_id} not found")
 
-        for reminder in get_all_reminders(REMINDER_FILE):
+        for reminder in self.reminder_service.get_all_reminders():
             remind_at_dt = datetime.strptime(reminder["remind_at"], "%Y-%m-%dT%H:%M:%S")
             if current_dt == remind_at_dt:
                 if reminder["to_remind"] == "everyone":
-                    await reminder_channel.send(f'reminder to @everyone: **{reminder["text"]}**')
-                    delete_reminder_by_id(REMINDER_FILE, int(reminder["id"]))
+                    await self.reminder_channel.send(f'reminder to @everyone: **{reminder["text"]}**')
+                    self.reminder_service.delete_reminder_by_id(int(reminder["id"]))
                 else:
                     user = await self.bot.fetch_user(reminder["to_remind"])
-                    await reminder_channel.send(f'reminder to {user.mention}: **{reminder["text"]}**')
-                    delete_reminder_by_id(REMINDER_FILE, int(reminder["id"]))
+                    await self.reminder_channel.send(f'reminder to {user.mention}: **{reminder["text"]}**')
+                    self.reminder_service.delete_reminder_by_id(int(reminder["id"]))
 
 
 async def setup(bot: commands.Bot) -> None:
