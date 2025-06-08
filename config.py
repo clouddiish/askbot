@@ -30,6 +30,7 @@ REMINDER_FILE = "data/reminder_data.json"
 
 HANGOUT_POLL_DAY = 1
 HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
+HANGOUT_POLL_WEEKDAY = 6
 
 BIRTHDAY_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 BIRTHDAY_FILE = "data/birthday_data.json"
