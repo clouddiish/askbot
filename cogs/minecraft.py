@@ -48,7 +48,7 @@ class Minecraft(commands.Cog):
         logger.debug("update_mc_players_channels() start")
         try:
             mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
-            mcserver_players_set = self.mc_service.get_mcserver_players_set()
+            mcserver_players_set = await self.mc_service.get_mcserver_players_set()
 
             logger.debug("comparing mcserver channels set with mcserver players set")
             if mc_category_channels_set != mcserver_players_set:

@@ -1,3 +1,5 @@
+import asyncio
+
 from mcstatus import JavaServer
 
 from config import MCSERVER_IP
@@ -16,11 +18,19 @@ class MinecraftService:
         logger.debug(f"current player counter: {counter}")
         return counter
 
-    def get_mcserver_players_set(self) -> set[str]:
+    async def get_mcserver_players_set(self) -> set[str]:
         logger.debug("getting mcserver players set")
-        players_set = set()
-        query = self.mcserver.query()
-        for player in query.players.names:
-            players_set.add(player)
-        logger.debug(f"current mcserver players set: {players_set}")
-        return players_set
+
+        def query_players():
+            try:
+                players_set = set()
+                query = self.mcserver.query()
+                for player in query.players.names:
+                    players_set.add(player)
+                return players_set
+            except Exception as e:
+                logger.error(f"Failed to query mcserver: {e}")
+                return set()
+
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(None, query_players)
