@@ -31,7 +31,7 @@ REMINDER_FILE = "data/reminder_data.json"
 HANGOUT_POLL_DAY = 1
 HANGOUT_POLL_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 
-BIRTHDAY_TIME = time(hour=8, minute=40, tzinfo=ZoneInfo("Europe/Warsaw"))
+BIRTHDAY_TIME = time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Warsaw"))
 BIRTHDAY_FILE = "data/birthday_data.json"
 
 MCSERVER_IP = os.getenv("MCSERVER_IP")
