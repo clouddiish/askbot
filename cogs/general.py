@@ -12,13 +12,21 @@ class General(commands.Cog):
     async def whoareyou(self, ctx: commands.Context) -> None:
         """responds with im szłotych"""
         logger.info(f"whoareyou command called by user {ctx.author}")
-        await ctx.send("im szłotych!")
+        try:
+            await ctx.send("im szłotych!")
+        except Exception as e:
+            logger.error(f"unexpected error in whoareyou(): {e}")
+            await ctx.send("ow something went wrong :-(")
 
     @commands.command()
     async def doyouloveus(self, ctx: commands.Context) -> None:
         """tells us it loves us"""
         logger.info(f"doyouloveus command called by user {ctx.author}")
-        await ctx.send("I LOVE YOU ALL!!!")
+        try:
+            await ctx.send("I LOVE YOU ALL!!!")
+        except Exception as e:
+            logger.error(f"unexpected error in doyouloveus(): {e}")
+            await ctx.send("ow something went wrong :-(")
 
 
 async def setup(bot: commands.Bot) -> None:

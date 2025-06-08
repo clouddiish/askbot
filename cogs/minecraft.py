@@ -15,6 +15,7 @@ class Minecraft(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """ensures the task starts only when the bot is fully ready"""
+        logger.info("on_ready() of Minecraft cog start")
         logger.debug("getting guild")
         self.guild = self.bot.get_guild(GUILD_ID)
         if not self.guild:
@@ -42,19 +43,26 @@ class Minecraft(commands.Cog):
     @tasks.loop(seconds=30)
     async def update_mc_players_channels(self) -> None:
         """updates the mc players channels to reflect actual current players in mcserver"""
-        mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
-        mcserver_players_set = self.mc_service.get_mcserver_players_set()
+        logger.debug("update_mc_players_channels() start")
+        try:
+            mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
+            mcserver_players_set = self.mc_service.get_mcserver_players_set()
 
-        logger.debug("comparing mcserver channels set with mcserver players set")
-        if mc_category_channels_set != mcserver_players_set:
-            logger.info("updating mcserver channels")
-            if len(mc_category_channels_set) < len(mcserver_players_set):
-                await self.mc_channel.send("somebody joined the minecraft server!")
+            logger.debug("comparing mcserver channels set with mcserver players set")
+            if mc_category_channels_set != mcserver_players_set:
+                logger.info("updating mcserver channels")
+                if len(mc_category_channels_set) < len(mcserver_players_set):
+                    await self.mc_channel.send("somebody joined the minecraft server!")
 
-            logger.debug("clearing mc_category channels")
-            await self.dc_service.clear_category_channels(category=self.mc_category)
-            logger.debug("creating new mc_category channels")
-            await self.dc_service.create_category_channels(category=self.mc_category, to_create=mcserver_players_set)
+                logger.debug("clearing mc_category channels")
+                await self.dc_service.clear_category_channels(category=self.mc_category)
+                logger.debug("creating new mc_category channels")
+                await self.dc_service.create_category_channels(
+                    category=self.mc_category, to_create=mcserver_players_set
+                )
+        except Exception as e:
+            logger.error(f"unexpected error in send_hangout_poll(): {e}")
+            await self.mc_channel.send("ow something went wrong :-(")
 
 
 async def setup(bot: commands.Bot) -> None:
