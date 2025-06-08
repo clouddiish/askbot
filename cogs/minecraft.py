@@ -1,3 +1,5 @@
+import traceback
+
 import discord
 from discord.ext import commands, tasks
 
@@ -46,7 +48,7 @@ class Minecraft(commands.Cog):
         logger.debug("update_mc_players_channels() start")
         try:
             mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
-            mcserver_players_set = await self.mc_service.get_mcserver_players_set()
+            mcserver_players_set = self.mc_service.get_mcserver_players_set()
 
             logger.debug("comparing mcserver channels set with mcserver players set")
             if mc_category_channels_set != mcserver_players_set:
@@ -61,7 +63,7 @@ class Minecraft(commands.Cog):
                     category=self.mc_category, to_create=mcserver_players_set
                 )
         except Exception as e:
-            logger.error(f"unexpected error in update_mc_players_channels(): {e}")
+            logger.error("unexpected error in update_mc_players_channels:\n%s", traceback.format_exc())
             await self.mc_channel.send("ow something went wrong :-(")
 
 
