@@ -10,13 +10,13 @@ class MinecraftService:
         self.mcserver = JavaServer.lookup(MCSERVER_IP)
         logger.debug(f"mcserver gotten: {self.mcserver}")
 
-    def get_mcserver_players_counter(self) -> int:
+    async def get_mcserver_players_counter(self) -> int:
         status = self.mcserver.status()
         counter = status.players.online
         logger.debug(f"current player counter: {counter}")
         return counter
 
-    def get_mcserver_players_set(self) -> set[str]:
+    async def get_mcserver_players_set(self) -> set[str]:
         logger.debug("getting mcserver players set")
         players_set = set()
         query = self.mcserver.query()
