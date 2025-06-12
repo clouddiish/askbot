@@ -1,10 +1,9 @@
-import traceback
-
 import discord
 from discord.ext import commands, tasks
 
 from config import GUILD_ID, MC_CATEGORY_ID, MC_CHANNEL_ID
 from services import DiscordService, MinecraftService
+from utils.decorators import catch_generic_exception
 from utils.logger import logger
 
 
@@ -43,28 +42,23 @@ class Minecraft(commands.Cog):
             self.update_mc_players_channels.start()
 
     @tasks.loop(seconds=30)
+    @catch_generic_exception(fallback_channel_attr="mc_channel")
     async def update_mc_players_channels(self) -> None:
         """updates the mc players channels to reflect actual current players in mcserver"""
         logger.debug("update_mc_players_channels() start")
-        try:
-            mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
-            mcserver_players_set = await self.mc_service.get_mcserver_players_set()
+        mc_category_channels_set = self.dc_service.get_category_channels_set(category=self.mc_category)
+        mcserver_players_set = await self.mc_service.get_mcserver_players_set()
 
-            logger.debug("comparing mcserver channels set with mcserver players set")
-            if mc_category_channels_set != mcserver_players_set:
-                logger.info("updating mcserver channels")
-                if len(mc_category_channels_set) < len(mcserver_players_set):
-                    await self.mc_channel.send("somebody joined the minecraft server!")
+        logger.debug("comparing mcserver channels set with mcserver players set")
+        if mc_category_channels_set != mcserver_players_set:
+            logger.info("updating mcserver channels")
+            if len(mc_category_channels_set) < len(mcserver_players_set):
+                await self.mc_channel.send("somebody joined the minecraft server!")
 
-                logger.debug("clearing mc_category channels")
-                await self.dc_service.clear_category_channels(category=self.mc_category)
-                logger.debug("creating new mc_category channels")
-                await self.dc_service.create_category_channels(
-                    category=self.mc_category, to_create=mcserver_players_set
-                )
-        except Exception as e:
-            logger.error("unexpected error in update_mc_players_channels:\n%s", traceback.format_exc())
-            await self.mc_channel.send("ow something went wrong :-(")
+            logger.debug("clearing mc_category channels")
+            await self.dc_service.clear_category_channels(category=self.mc_category)
+            logger.debug("creating new mc_category channels")
+            await self.dc_service.create_category_channels(category=self.mc_category, to_create=mcserver_players_set)
 
 
 async def setup(bot: commands.Bot) -> None:

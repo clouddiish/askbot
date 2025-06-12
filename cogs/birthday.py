@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 
 from config import BIRTHDAY_TIME, BIRTHDAY_CHANNEL_ID, BIRTHDAY_FILE
 from services import BirthdayService
+from utils.decorators import catch_generic_exception
 from utils.logger import logger
 
 
@@ -27,6 +28,7 @@ class Birthday(commands.Cog):
             self.check_birthdays.start()
 
     @commands.command()
+    @catch_generic_exception(fallback_channel_attr="birthday_channel")
     async def setbirthday(self, ctx: commands.Context, date: str) -> None:
         """set your birthday using DD-MM format"""
         logger.info(f"setbirthday command called by user {ctx.author}")
@@ -37,23 +39,17 @@ class Birthday(commands.Cog):
         except ValueError:
             logger.error(f"invalid birthday format sent by user {ctx.author}")
             await ctx.send("invalid format, please use DD-MM")
-        except Exception as e:
-            logger.error(f"unexpected error in setbirthday(): {e}")
-            await ctx.send("ow something went wrong :-(")
 
     @commands.command()
+    @catch_generic_exception(fallback_channel_attr="birthday_channel")
     async def mybirthday(self, ctx: commands.Context) -> None:
         """check your birthday"""
         logger.info(f"mybirthday command called by user {ctx.author}")
-        try:
-            logger.info(f"mybirthday command called by user {ctx.author}")
-            bday = self.bday_service.get_birthday_by_user_id(ctx.author.id)
-            await ctx.send(f"your birthday currently is set to: {bday}")
-        except Exception as e:
-            logger.error(f"unexpected error in mybirthday(): {e}")
-            await ctx.send("ow something went wrong :-(")
+        bday = self.bday_service.get_birthday_by_user_id(ctx.author.id)
+        await ctx.send(f"your birthday currently is set to: {bday}")
 
     @commands.command()
+    @catch_generic_exception(fallback_channel_attr="birthday_channel")
     async def allbirthdays(self, ctx: commands.Context) -> None:
         """send all birthdays"""
         logger.info(f"allbirthdays command called by user {ctx.author}")
@@ -67,11 +63,9 @@ class Birthday(commands.Cog):
         except ValueError:
             logger.error(f"invalid birthday format for user {user.display_name}: {birthday}")
             await ctx.send(f"invalid birthday format for user {user.display_name}: {birthday}, please set to DD-MM")
-        except Exception as e:
-            logger.error(f"unexpected error in allbirthdays(): {e}")
-            await ctx.send("ow something went wrong :-(")
 
     @tasks.loop(time=BIRTHDAY_TIME)
+    @catch_generic_exception(fallback_channel_attr="birthday_channel")
     async def check_birthdays(self) -> None:
         """check if it's someone's birthday and sends a message."""
         logger.info("check_birthdays() start")
@@ -91,9 +85,6 @@ class Birthday(commands.Cog):
             await self.birthday_channel.send(
                 f"invalid birthday format for user {user.display_name}: {birthday}, please set to DD-MM"
             )
-        except Exception as e:
-            logger.error(f"unexpected error in check_birthdays(): {e}")
-            await self.birthday_channel.send("ow something went wrong :-(")
 
 
 async def setup(bot: commands.Bot) -> None:

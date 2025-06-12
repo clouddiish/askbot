@@ -9,6 +9,7 @@ load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
 ENVIRONMENT = os.getenv("ENVIRONMENT")
+DEV_USER_ID = os.getenv("DEV_USER_ID")
 
 if ENVIRONMENT == "prod":
     GUILD_ID = int(os.getenv("GUILD_ID"))

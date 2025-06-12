@@ -1,6 +1,6 @@
-import discord
 from discord.ext import commands
 
+from utils.decorators import catch_generic_exception
 from utils.logger import logger
 
 
@@ -9,24 +9,18 @@ class General(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @catch_generic_exception()
     async def whoareyou(self, ctx: commands.Context) -> None:
         """responds with im szłotych"""
         logger.info(f"whoareyou command called by user {ctx.author}")
-        try:
-            await ctx.send("im szłotych!")
-        except Exception as e:
-            logger.error(f"unexpected error in whoareyou(): {e}")
-            await ctx.send("ow something went wrong :-(")
+        await ctx.send("im szłotych!")
 
     @commands.command()
+    @catch_generic_exception()
     async def doyouloveus(self, ctx: commands.Context) -> None:
         """tells us it loves us"""
         logger.info(f"doyouloveus command called by user {ctx.author}")
-        try:
-            await ctx.send("I LOVE YOU ALL!!!")
-        except Exception as e:
-            logger.error(f"unexpected error in doyouloveus(): {e}")
-            await ctx.send("ow something went wrong :-(")
+        await ctx.send("I LOVE YOU ALL!!!")
 
 
 async def setup(bot: commands.Bot) -> None:
