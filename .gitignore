@@ -1,0 +1,5 @@
+.venv
+.env
+*__pycache__*
+data/birthday_data.json
+data/reminder_data.json
